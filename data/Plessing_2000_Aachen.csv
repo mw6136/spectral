@@ -1,0 +1,7 @@
+Name,Experiment,Phi,P (MPa),u'/sl,l0/dl,st/sl_c=0.05,st/sl_c=0.2,st/sl_c=0.5,T(K),Le,Fuel,At/Al_grad_c,At/Al_shepherd,At/Al_fractal,At/Al_modifiedfractal,(P_T/P)^2,Burner Diameter (mm),Taylor (mm),eta (mm),Re_l0 (provided),Ka (provided),Da (provided),D (cm2/s),nu (cm2/s),alpha (cm2/s),Pr,Pilot (Y/N),Pilot Fuel,U_mean (m/s),u' (m/s),sl (m/s),st (m/s),l0 (mm),dl (mm),dl (mm) thesis,Ma,Markstein_L (mm)
+P0,Plessing_2000_Aachen,0.7,NA,3.45,42.85714286,NA,NA,5.994742606,300,NA,CH4,NA,NA,NA,NA,NA,50.8,NA,NA,145,0.96,12.2,0.72,NA,NA,NA,N,NA,2.47,0.69,0.2,NA,15,0.35,NA,NA,NA
+P0,Plessing_2000_Aachen,0.7,NA,6,42.85714286,NA,NA,8.163555137,300,NA,CH4,NA,NA,NA,NA,NA,50.8,NA,NA,258,2.25,7.11,0.72,NA,NA,NA,N,NA,4.93,1.2,0.2,NA,15,0.35,NA,NA,NA
+P0,Plessing_2000_Aachen,0.7,NA,9.2,42.85714286,NA,NA,11.88503759,300,NA,CH4,NA,NA,NA,NA,NA,50.8,NA,NA,393,4.26,4.66,0.72,NA,NA,NA,N,NA,7.4,1.84,0.2,NA,15,0.35,NA,NA,NA
+P0,Plessing_2000_Aachen,0.7,NA,13,42.85714286,NA,NA,15.68169873,300,NA,CH4,NA,NA,NA,NA,NA,50.8,NA,NA,557,7.21,3.28,0.72,NA,NA,NA,N,NA,9.87,2.6,0.2,NA,15,0.35,NA,NA,NA
+P0,Plessing_2000_Aachen,0.7,NA,15.4,42.85714286,NA,NA,16.00928266,300,NA,CH4,NA,NA,NA,NA,NA,50.8,NA,NA,659,9.21,2.79,0.72,NA,NA,NA,N,NA,12.34,3.08,0.2,NA,15,0.35,NA,NA,NA
+P0,Plessing_2000_Aachen,0.7,NA,18.7,42.85714286,NA,NA,18.68593486,300,NA,CH4,NA,NA,NA,NA,NA,50.8,NA,NA,800,12.33,2.29,0.72,NA,NA,NA,N,NA,14.8,3.74,0.2,NA,15,0.35,NA,NA,NA
