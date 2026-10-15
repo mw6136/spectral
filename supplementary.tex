@@ -46,8 +46,7 @@ This document accompanies the paper. Sections, figures, tables and equations num
 %=====================================================================
 \section{Distribution of the wrinkling exponent}\label{sec:beta}
 
-The paper connects its burning-velocity relation with the power-law wrinkling factor of \citet{Charlette2002a} for an exponent $\beta_w = 1/2$. \citet{Charlette2002b} determined $\beta_w$ locally with a dynamic procedure, and figure~\ref{fig:beta} shows the probability density function (PDF) of the exponents they obtained, digitised from their paper.
-% TODO: name the figure and case of Charlette et al. (2002b) that was digitised.
+The paper connects its burning-velocity relation with the power-law wrinkling factor of \citet{Charlette2002a} for an exponent $\beta_w = 1/2$. \citet{Charlette2002b} determined $\beta_w$ locally with a dynamic procedure, and figure~\ref{fig:beta} shows the probability density function (PDF) of the exponents they obtained, digitised from figure~5 of their paper.
 The digitised curve, which ends at $\beta_w = 1$, was normalised to unit area and its moments were computed by trapezoidal integration. The mean is 0.587 and the standard deviation 0.104 (variance 0.0109); the median is 0.57 and the interquartile range 0.51--0.65. About 22\,\% of the distribution lies below $\beta_w = 0.5$, and the digitised PDF falls to zero at $\beta_w = 0.4$, above the fractal value $\beta_w = 1/3$ that would recover Damk\"ohler's large-$\up$ limit $s_T \propto \up$. The distribution therefore supports an exponent close to $1/2$, centred slightly above it.
 
 \begin{figure}[h]
@@ -56,6 +55,40 @@ The digitised curve, which ends at $\beta_w = 1$, was normalised to unit area an
   \caption{PDF of the local wrinkling exponent $\beta_w$ obtained with the dynamic procedure of \citet{Charlette2002b} (digitised). Dashed line, mean $\mu = 0.587$; shading, $\mu \pm \sigma$, where $\sigma^2 = 0.011$ is the variance.}
   \label{fig:beta}
 \end{figure}
+
+%=====================================================================
+\section{Selection and treatment of the experimental data}\label{sec:data}
+
+Measured turbulent burning velocities depend on the flame configuration and on how $s_T$ is defined \citep{Driscoll2008}, so the datasets of table~1 of the paper were chosen to keep both as uniform as possible.
+
+\subsection{Flame configuration}\label{sec:config}
+
+\citet{Driscoll2008} groups premixed turbulent flames into envelope flames (on two-dimensional slot and axisymmetric Bunsen burners), oblique flames, unattached flat flames (on low-swirl, diffuser or counterflow burners) and spherical flames (in fan-stirred vessels). All of the datasets except Aachen are envelope flames: the Michigan (2005) flames are on a slot burner, Damk\"ohler's on tubes and the others on round Bunsen burners. The Aachen flames, on a low-swirl burner, are unattached flames in this classification.
+
+\subsection{Turbulent burning velocity}\label{sec:sT}
+
+In an envelope flame all of the reactants supplied by the burner pass through the flame, so mass conservation gives a mean, or global, consumption speed,
+\begin{equation}
+  s_T = \frac{\dot m_R}{\rho_R \bar A},
+  \label{eq:consumption}
+\end{equation}
+where $\dot m_R$ is the mass flow rate of reactants, $\rho_R$ their density and $\bar A$ the area of a mean flame surface \citep{Filatyev2005,Driscoll2008}. Where the source reports it, $\bar A$ is taken on the isosurface $\overline{\Lambda} = 0.5$ of the mean progress variable (table~1 of the paper); for Ottawa it is $\overline{\Lambda} = 0.05$, and for Michigan (2005) it is the time-averaged flame position. Differences in equivalence ratio, within and between datasets, are accounted for by normalising $s_T$ by the laminar burning velocity $\sL$ of each mixture.
+
+Spherically expanding flames, such as those studied at Leeds \citep{Bradley2003,Lawes2012} and Princeton \citep{Chaudhuri2012,Wu2015}, are characterised instead by a propagation or displacement speed derived from the growth rate $\mathrm{d}R / \mathrm{d}t$ of a mean flame radius $R$, often multiplied by the ratio of burned to unburned gas density. This speed increases with $R$, because a growing flame kernel is wrinkled by an increasing part of the turbulence spectrum \citep{AbdelGayed1987,Bradley2003,Lawes2012}, and \citet{Chaudhuri2012} correlated it with a Reynolds number based on the mean flame radius rather than on $\ell_0$. It measures a different quantity from (\ref{eq:consumption}), and such data are not included.
+
+\subsection{Approaching turbulence}\label{sec:turbulence}
+
+The approaching turbulence differs between the configurations. In an envelope flame it is generated in the burner tube or nozzle, typically by a perforated or slotted plate or a grid, and in Damk\"ohler's experiments it is the turbulence of the tube flow itself, so its spectrum is that of a turbulent pipe or nozzle flow. \citet[][figure~6.14]{Pope2000} derived the model spectrum used in the paper with one-dimensional spectra measured in a range of flows, among them turbulent pipe flow and round jets. In fan-stirred vessels the turbulence is produced by fans and is close to isotropic near the centre; its spectrum has been characterised for the Leeds vessel by \citet{AbdelGayed1987}, who measured its power spectral density, and in \citet{Walker2019}.
+
+\subsection{Mixtures and operating conditions}\label{sec:mixtures}
+
+To exclude differential diffusion, all of the datasets except Damk\"ohler's are methane--air flames, for which the Lewis number $\mbox{\textit{Le}} \approx 1$ \citep[e.g.][]{Kobayashi1996}, at 0.1\,MPa and about 300\,K; for this reason the high-pressure measurements of \citet{Kobayashi1996} and the propane--air flames of \citet{YuenGulder2013} are not used. Damk\"ohler's flames burned a propane--butane mixture with oxygen.
+
+\subsection{Laminar flame thickness}\label{sec:thickness}
+
+The sources define the laminar flame thickness differently. Michigan (2017) and Toronto (2013) give thermal thicknesses from detailed-chemistry calculations of the laminar flame (0.36\,mm, and 0.45--1.0\,mm for the flames used here); Michigan (2005) uses $\dL = 7.4 \, \alpha / \sL = 0.35$\,mm, where $\alpha$ is the thermal diffusivity of the reactants; Aachen uses $D / \sL = 0.35$\,mm with the diffusivity $D$ evaluated at 1500\,K; and the thicknesses of Tohoku and Toronto (2014), 0.066\,mm and 0.055--0.11\,mm, correspond to $\alpha / \sL$. Ottawa gives 0.033--0.065\,mm.
+% TODO: state the definitions used by Ottawa and Damkohler.
+The paper takes $\ell_0 / \dL$ as given by each source, or as computed from the given $\ell_0$ and $\dL$. With unity Schmidt number a consistent choice would be $\dL = \nu / \sL$, so that $\Rey = \up \ell_0 / \nu$. Reynolds numbers defined in this way, reported by the sources or computed from their tabulated $\nu$ and $\sL$, exceed those used in the paper by factors of 5.5, 6.6 and 8.9 for Michigan (2017), Toronto (2013) and Michigan (2005), and by 1.4 for Tohoku and Toronto (2014). The thickness enters the prediction only through $\mathcal{F}(\Rey)$, which varies slowly: halving or doubling $\dL$ changes the predicted $s_T$ by about 10\,\% at the median and by at most 21\,\%. Re-evaluating $\Rey$ as $\up \ell_0 / \nu$ for these five datasets changes the fraction of points within a factor of 1.5 of the prediction from 71\,\% to 69\,\%, and the r.m.s.\ logarithmic deviation from 0.38 to 0.37, although individual datasets shift: the geometric-mean ratio of measurement to prediction changes from 1.06 to 0.96 for Michigan (2017), from 1.06 to 0.74 for Toronto (2013) and from 1.37 to 1.04 for Michigan (2005).
 
 %=====================================================================
 \section{Scaling of the burning velocity with Reynolds and Karlovitz numbers}\label{sec:fan}
@@ -84,8 +117,7 @@ The functions $\nu_e^{+}(\kappa / \kappa_c)$ and $\De(\kappa / \kappa_c)$ comput
   \label{eq:fit}
 \end{equation}
 Table~\ref{tab:fit} lists the coefficients and the values at the cusp, $\kappa = \kappa_c$, which are the values used in the paper; the turbulent Schmidt number is $\Sct = \nu_e^{+} / \De$. The fitted curves are shown in figure~2(\textit{b}) of the paper. The regression of \citet{Pope2000} for $\nu_e^{+}$ gives a cusp value 26\,\% lower than the fit to the curve of \citet{Chollet1984}.
-
-\begin{table}[h]
+\begin{table}[h!]
   \centering
   \begin{tabular}{lcccc}
     \toprule
