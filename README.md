@@ -29,7 +29,8 @@ jupyter nbconvert --to notebook --execute --inplace make_figures.ipynb
 The notebook writes to `figures/`:
 
 - `fig1a_regime` … `fig4b_landscape`: one PDF and one 1200 dpi PNG per panel of figures 1–4 of the paper;
-- `supp_beta_pdf`, `supp_scaling_fan`: figures S1 and S2 of the supplementary material;
+- `supp_beta_pdf`, `supp_regime_skiba`, `supp_regime_bray`, `supp_scaling_fan`: figures S1, S2(*a*), S2(*b*) and S3
+  of the supplementary material;
 - `sym_*.pdf`: the plot symbols used in table 1;
 - `predictions.csv`: for each of the 80 measurements, the inputs, $`Re`$, $`Ka`$, $`\mathcal{F}(Re)`$, the measured and
   predicted $`s_T/s_L`$, and $`A_T/A`$ where available.
