@@ -6,15 +6,21 @@ Data and code for
 > *A spectral theory for turbulent burning velocity across scales*, submitted to *Journal of Fluid Mechanics* (Rapids).
 
 The notebook `make_figures.ipynb` reproduces every figure of the paper and of its supplementary material, the
-symbols of table 1, and the agreement statistics quoted in §4, from the datasets in `data/`.
+symbols of table 1, and the agreement statistics quoted in §4, from the datasets in `data/`. A second notebook,
+`data/source/Damkohler_laminar_flames.ipynb`, computes laminar flames at the conditions of Damköhler (1940), to
+compare with his flame speeds and with the flame thickness used for his data (§S2.5 of the supplementary material).
 
 ## Contents
 
 ```
-make_figures.ipynb      notebook: model, figures, statistics
-data/                   experimental and digitized data (described below)
-  source/               spreadsheet from which Damkohler_1940.csv is taken
-figures/                output of the notebook
+make_figures.ipynb                    notebook: model, figures, statistics
+data/                                 experimental and digitized data (described below)
+  source/
+    Damkohler_1940_tables.xlsx        tables and figures of Damköhler (1940), from which Damkohler_1940.csv is taken
+    Damkohler_laminar_flames.ipynb    notebook: laminar flames at Damköhler's conditions
+    mechanisms/                       chemical mechanisms for these flames
+    Damkohler_laminar_flames/         output of Damkohler_laminar_flames.ipynb
+figures/                              output of make_figures.ipynb
 ```
 
 ## Running
@@ -36,6 +42,8 @@ The notebook writes to `figures/`:
 - `sym_*.pdf`: the plot symbols used in table 1;
 - `predictions.csv`: for each of the 80 measurements, the inputs, $`Re`$, $`Ka`$, $`\mathcal{F}(Re)`$, the measured and
   predicted $`s_T/s_L`$, and $`A_T/A`$ where available.
+
+`data/source/Damkohler_laminar_flames.ipynb` also needs Cantera and openpyxl; it is described in the last section.
 
 ## Model
 
@@ -98,11 +106,16 @@ The seven burner files share the same columns.
 
 ### Damköhler (1940)
 
-`Damkohler_1940.csv` is the sheet `Full` of `source/Damkohler_1940_tables.xlsx`, which also holds the tables and
-figures of Damköhler (1940) from which it was assembled. The flames are propane–butane–oxygen flames on tubes.
-Columns not listed above are `Phi_O2` (equivalence ratio with oxygen), `Re_d` (tube Reynolds number),
-`Re_T` ($`Re_d - 2300`$), `wf_max (cm/s)` and `wf_min (cm/s)` (flame speeds, whose ratio `wf_max/wf_min` is used as
-$`s_T/s_L`$), and `r/R` and `l/R` (radial position and mixing length over tube radius).
+`Damkohler_1940.csv` is the sheet `Full` of `source/Damkohler_1940_tables.xlsx` without its empty columns; the other
+sheets transcribe tables 1–3, 8 and 9 and figures 5 and 6(*a*) of Damköhler (1940), from which it was assembled. The
+flames are propane–butane–oxygen flames on tubes of 1.385, 2.18 and 2.718 mm diameter. The fuel, Damköhler's technical
+propane, is taken as 85 % propane and 15 % butane by volume (column `Fuel`), as he inferred from its mean molar mass of
+46.1 g/mol. Columns not listed above are `Phi_O2` (equivalence ratio with oxygen), `Re_d` (tube Reynolds number),
+`Re_T` ($`Re_d - 2300`$), `wf_max (cm/s)` and `wf_min (cm/s)` (flame speeds from the inner and outer boundaries of the
+luminous zone, whose ratio `wf_max/wf_min` is used as $`s_T/s_L`$), and `r/R` and `l/R` (radial position and mixing
+length over tube radius). As described in §S2.5 of the supplementary material, `l0 (mm)` is the largest mixing length
+in each tube, `dl (mm)` is 0.01 mm, a tenth of the 0.1 mm thickness Damköhler gives for the luminous zone of his
+laminar flames, and `u'/sl` is $`Re_T^{1/2}/(\ell_0/\delta_L)`$, or zero for $`Re_d < 2300`$.
 
 ### Chollet (1984)
 
@@ -115,17 +128,53 @@ long format: `quantity` (`nu_e+`, `D_e+` or `Sc_T`), `k/kc` and `value`.
 `Charlette_2002b_beta_pdf.csv` holds the probability density function of the local wrinkling exponent $`\beta_w`$
 returned by the dynamic procedure of Charlette, Meneveau & Veynante (2002*b*), digitized: `beta_w` and `pdf`.
 
+## Laminar flames at Damköhler's conditions
+
+`data/source/Damkohler_laminar_flames.ipynb` computes freely propagating, adiabatic, laminar flames with Cantera
+(Goodwin *et al.* 2025) for the 22 mixtures of Damköhler's table 3 (sheet `Table 3` of the spreadsheet): his
+technical propane, 85 % propane and 15 % butane by volume, burning in pure oxygen at 18 °C and 1 atm. It compares
+the laminar burning velocity $`s_L`$ with his flame speeds, and the flame thickness by several definitions with the
+$`\delta_L = 0.01`$ mm used for his data in the paper. `MECH_FILE` selects the mechanism, from `mechanisms/`:
+
+- `UCSD_mech.yaml`: UCSD mech, the C<sub>0</sub>–C<sub>4</sub> mechanism of the University of California at San Diego,
+  57 species and 268 reactions ([*Chemical-kinetic mechanisms for combustion applications*](https://web.eng.ucsd.edu/mae/groups/combustion/mechanism.html),
+  Mechanical and Aerospace Engineering, Combustion Research, UCSD);
+- `USC_mech_II.yaml`: USC mech II (Wang *et al.* 2007), 111 species and 784 reactions, with the thermodynamic data of
+  every species from the mechanism's own `thermdat.txt`; the header of the file lists the species whose data were
+  corrected.
+
+Besides the packages above, the notebook needs Cantera 3.1 or later and openpyxl; the results here are from Cantera
+3.2.0. Run it once for each mechanism, which takes about 10 minutes with UCSD mech and 20 with USC mech II. It
+writes to `data/source/Damkohler_laminar_flames/`:
+
+- `sL_Damkohler`: $`s_L`$ from both mechanisms against Damköhler's flame speeds $`w_{f,\min}`$ and $`w_{f,\max}`$, as
+  a PDF and a 1200 dpi PNG;
+- `<mechanism>/dL_definitions`: the flame thickness by each definition;
+- `<mechanism>/flame_speed_technical_propane_<mechanism>_P_1.00.csv`: one row per mixture, with $`s_L`$, the peak
+  temperature, the flame thickness by each definition, the Prandtl, Schmidt and Lewis numbers, properties of the
+  burned gas, and the activation temperature, Zel'dovich number and Markstein number;
+- `<mechanism>/Array_tech_propane_<phi>_P_1.01.csv`: the structure of each flame.
+
+With UCSD mech, $`s_L`$ is 0.53–3.0 m/s; USC mech II gives 7–12 % less. For the laminar tests, the median
+$`w_{f,\min}/s_L`$ is 1.01 with UCSD mech and 1.11 with USC mech II. The thermal thickness
+$`(T_b - T_u)/\max(\mathrm{d}T/\mathrm{d}x)`$, 0.07–0.29 mm, is comparable to the 0.1 mm Damköhler gives for the
+luminous zone, whereas $`\nu_u/s_L`$, with the kinematic viscosity of the reactants, is 0.004–0.019 mm, so that the
+$`\delta_L`$ = 0.01 mm of the paper corresponds to $`\nu/s_L`$. The activation temperature, Zel'dovich number and
+Markstein number in the summary files are not meaningful for these flames (see the notes at the end of the notebook).
+
 ## References
 
 - Charlette, F., Meneveau, C. & Veynante, D. 2002*b* A power-law flame wrinkling model for LES of premixed turbulent combustion Part II: dynamic formulation. *Combust. Flame* **131**, 181–197. [doi:10.1016/S0010-2180(02)00401-7](https://doi.org/10.1016/S0010-2180(02)00401-7)
 - Chollet, J.-P. 1984 Two-point closure used for a sub-grid scale model in large eddy simulations. In *Turbulent Shear Flows 4*, pp. 62–72. Springer. [doi:10.1007/978-3-642-69996-2_5](https://doi.org/10.1007/978-3-642-69996-2_5)
 - Damköhler, G. 1940 Der Einfluss der Turbulenz auf die Flammengeschwindigkeit in Gasgemischen. *Z. Elektrochem. Angew. Phys. Chem.* **46**, 601–652 (English translation: NACA TM 1112, 1947). [doi:10.1002/bbpc.19400461102](https://doi.org/10.1002/bbpc.19400461102)
 - Filatyev, S. A., Driscoll, J. F., Carter, C. D. & Donbar, J. M. 2005 Measured properties of turbulent premixed flames for model assessment, including burning velocities, stretch rates, and surface densities. *Combust. Flame* **141**, 1–21. [doi:10.1016/j.combustflame.2004.07.010](https://doi.org/10.1016/j.combustflame.2004.07.010)
+- Goodwin, D. G., Moffat, H. K., Schoegl, I., Speth, R. L. & Weber, B. W. 2025 Cantera: an object-oriented software toolkit for chemical kinetics, thermodynamics, and transport processes, version 3.2.0. [doi:10.5281/zenodo.17620923](https://doi.org/10.5281/zenodo.17620923)
 - Kobayashi, H., Tamura, T., Maruta, K., Niioka, T. & Williams, F. A. 1996 Burning velocity of turbulent premixed flames in a high-pressure environment. *Symp. (Int.) Combust.* **26**, 389–396. [doi:10.1016/S0082-0784(96)80240-2](https://doi.org/10.1016/S0082-0784(96)80240-2)
 - Plessing, T., Kortschik, C., Peters, N., Mansour, M. S. & Cheng, R. K. 2000 Measurements of the turbulent burning velocity and the structure of premixed flames on a low-swirl burner. *Proc. Combust. Inst.* **28**, 359–366. [doi:10.1016/S0082-0784(00)80231-3](https://doi.org/10.1016/S0082-0784(00)80231-3)
 - Pope, S. B. 2000 *Turbulent Flows*. Cambridge University Press.
 - Smallwood, G. J., Gülder, Ö. L., Snelling, D. R., Deschamps, B. M. & Gökalp, I. 1995 Characterization of flame front surfaces in turbulent premixed methane/air combustion. *Combust. Flame* **101**, 461–470. [doi:10.1016/0010-2180(94)00226-I](https://doi.org/10.1016/0010-2180(94)00226-I)
 - Tamadonfar, P. & Gülder, Ö. L. 2014 Flame brush characteristics and burning velocities of premixed turbulent methane/air Bunsen flames. *Combust. Flame* **161**, 3154–3165. [doi:10.1016/j.combustflame.2014.06.014](https://doi.org/10.1016/j.combustflame.2014.06.014)
 - Wabel, T. M., Skiba, A. W. & Driscoll, J. F. 2017 Turbulent burning velocity measurements: extended to extreme levels of turbulence. *Proc. Combust. Inst.* **36**, 1801–1808. [doi:10.1016/j.proci.2016.08.013](https://doi.org/10.1016/j.proci.2016.08.013)
+- Wang, H., You, X., Joshi, A. V., Davis, S. G., Laskin, A., Egolfopoulos, F. & Law, C. K. 2007 USC Mech Version II. High-temperature combustion reaction model of H<sub>2</sub>/CO/C<sub>1</sub>–C<sub>4</sub> compounds. [ignis.usc.edu/USC_Mech_II.htm](http://ignis.usc.edu/USC_Mech_II.htm)
 - Yuen, F. T. C. 2009 Experimental investigation of the dynamics and structure of lean-premixed turbulent combustion. PhD thesis, University of Toronto.
 - Yuen, F. T. C. & Gülder, Ö. L. 2013 Turbulent premixed flame front dynamics and implications for limits of flamelet hypothesis. *Proc. Combust. Inst.* **34**, 1393–1400. [doi:10.1016/j.proci.2012.06.167](https://doi.org/10.1016/j.proci.2012.06.167)
