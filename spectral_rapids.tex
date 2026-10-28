@@ -108,16 +108,13 @@ In two-point closures of isotropic turbulence, the depletion of energy from a mo
   \label{eq:nue}
 \end{equation}
 where the non-dimensional function $\nu_e^{+}$, computed with the eddy-damped quasi-normal Markovian closure, is flat for $\kappa \ll \kappa_c$ and rises to a cusp as $\kappa \to \kappa_c$ \citep{Chollet1984}. \citet{Chollet1984} also computed the corresponding eddy diffusivity $\De$ of a passive scalar, whose ratio to $\nu_e^{+}$ defines a spectral turbulent Schmidt number $\Sct = \nu_e^{+} / \De$. Fits to these curves (figure~\ref{fig:spectrum}\textit{b}; coefficients in supplementary table~S1) give, at the cusp, $\nu_e^{+}(1) = 0.868$, $\Sct(1) = 0.462$ and hence $\De(1) = 1.88$.
-% TODO: these cusp values come from the authors' fit to digitised Chollet (1984) curves; Pope's regression,
-% nu_e^+ = C^{-3/2}[0.441 + 15.2 exp(-3.03 kappa_c/kappa)], gives nu_e^+(1) = 0.640. State which source is
-% definitive and give the fit coefficients (Spectral_Viscosity.ipynb, cell 4) in the supplementary material.
 
 The factor $[E(\kappa) / \kappa]^{1/2}$ in (\ref{eq:nue}) can be written $u_\kappa / \kappa$, where $u_\kappa \equiv [\kappa E(\kappa)]^{1/2}$ is the characteristic velocity of eddies of size $\kappa^{-1}$. It is therefore Prandtl's mixing-length product of a velocity and a length at that scale, with the dimensions of a diffusivity. Accordingly, we assign to each wavenumber the scalar eddy diffusivity at the cusp,
 \begin{equation}
   D_\kappa(\kappa) \equiv \De(1) \left[\frac{E(\kappa)}{\kappa}\right]^{1/2} = \De(1) \, \frac{u_\kappa}{\kappa},
   \label{eq:Dk}
 \end{equation}
-that is, the transport exerted by eddies of wavenumber $\kappa$ on scales just larger than themselves. Equation (\ref{eq:Dk}) replaces the integrand $[2 E(\kappa)]^{1/2} / \kappa$ of \citet{Nivarti2019}, removing the dimensional inconsistency and taking the prefactor from the closure rather than setting it to unity.
+which is the total transport exerted on scale $\kappa^{-1}$ by all smaller eddies. To see this, write $D_e(\kappa | \kappa_c) = \De(\kappa / \kappa_c) [E(\kappa_c) / \kappa_c]^{1/2}$ by analogy with (\ref{eq:nue}). Eddies near $\kappa_c$ contribute $-\partial D_e(\kappa | \kappa_c) / \partial \kappa_c$ per unit $\kappa_c$ to the diffusivity at $\kappa$, and summing over all of them gives $-\int_\kappa^{\kappa_\eta} \partial D_e(\kappa | \kappa_c) / \partial \kappa_c \, \mathrm{d} \kappa_c = D_e(\kappa | \kappa) - D_e(\kappa | \kappa_\eta) \approx D_e(\kappa | \kappa)$, the closure at its cusp, since little energy lies beyond $\kappa_\eta$. Equation (\ref{eq:Dk}) replaces the integrand $[2 E(\kappa)]^{1/2} / \kappa$ of \citet{Nivarti2019}, removing the dimensional inconsistency and taking the prefactor from the closure rather than setting it to unity.
 
 \subsection{Total diffusivity enhancement}
 
@@ -246,16 +243,19 @@ Equation (\ref{eq:main}) can therefore be read in two ways: as Damk\"ohler's sec
   \end{center}
 \end{table}
 % TODO (data, before submission):
-%  (1) delta_L is defined differently across the source papers (thermal thickness for Michigan 2017/Toronto, nu/s_L
-%      for Tohoku, D(1500 K)/s_L for Aachen). The ratio of reported Re to (u'/s_L)(l0/dL) is ~5.5 (Michigan 2017),
+%  (1) delta_L is defined differently across the source papers (thermal thickness for Michigan 2017/Toronto, 7.4 alpha/s_L
+%      for Michigan 2005, alpha/s_L computed here for Tohoku, D(1500 K)/s_L for Aachen). The ratio of reported Re to (u'/s_L)(l0/dL) is ~5.5 (Michigan 2017),
 %      ~6.6 (Toronto 2013), ~8.9 (Michigan 2005). Harmonise to delta_L = nu/s_L via RE_CORR in make_figures.ipynb.
 %      Predictions depend on delta_L only through F(Re), so s_T changes by <~20%, but Re and Ka on the axes move.
-%  (2) confirm burner type / pilot for Tohoku and Michigan 2005, Damkohler burner diameters (xlsx gives 1.385-2.72).
-%  (3) confirm that wf_max/wf_min in Damkohler_1947.xlsx is s_T/s_L and how u'/s_L, l0/dL were estimated.
-%  (4) notebook figures used c = 0.05 for Toronto (2013) in some plots and c = 0.5 in others; c = 0.5 used here.
+%  (2) notebook figures used c = 0.05 for Toronto (2013) in some plots and c = 0.5 in others; c = 0.5 used here.
+%  (3) Michigan (2005): Filatyev et al. (their table 1) give l0 only for cases 3b, 3c, 8b and 8c. The data file assigns
+%      l0 to cases 5a, 12a and 12b (u'/s_L = 0.68, 2.17, 4.80) from 3b, 3c and 8c, which have similar u'/s_L (first
+%      done in Filatyev_2005_Michigan_for_thesis.csv, 2019). Drop these three points or say so. Without them: n = 77,
+%      73% within 1.5, r.m.s. log deviation 0.37; Michigan (2005) geometric-mean ratio 1.28 (n = 4).
 
-Table~\ref{tab:data} lists the experiments, which span $0.02 < \Ka < 310$ and $10 < \Rey < 2 \times 10^4$ (figure~\ref{fig:data}\textit{a}). For uniformity, $s_T$ is the global consumption speed on the $\overline{\Lambda} = 0.5$ isosurface wherever the source reports it (supplementary section~S2), and $\Rey$ and $\Ka$ are evaluated from the tabulated $\up / \sL$ and $\ell_0 / \dL$ using (\ref{eq:groups}). The spectral constants are those of non-reacting turbulence: $C = 1.5$, $\beta = 5.2$ and $c_L = 6.78$ \citep{Pope2000}, with $\De(1) = 1.88$ from \citet{Chollet1984}, so that $\Cs = 2.64$. We take $p_0 = 0$, a spectrum that is flat at low wavenumbers, which gave the best agreement in the comparisons of \citet{Walker2019}; $p_0 = 2$ and $4$ lower the predictions by medians of 12\,\% and 20\,\% over the present data. Apart from this choice, no constant is adjusted to the data.
-% TODO: confirm the stated reason for p0 = 0 (thesis section 4.2 / draft notes) and whether it was chosen per dataset.
+Table~\ref{tab:data} lists the experiments, which span $0.02 < \Ka < 310$ and $10 < \Rey < 2 \times 10^4$ (figure~\ref{fig:data}\textit{a}). For uniformity, $s_T$ is the global consumption speed on the $\overline{\Lambda} = 0.5$ isosurface wherever the source reports it (supplementary section~S2), and $\Rey$ and $\Ka$ are evaluated from the tabulated $\up / \sL$ and $\ell_0 / \dL$ using (\ref{eq:groups}). The spectral constants are those of non-reacting turbulence: $C = 1.5$, $\beta = 5.2$ and $c_L = 6.78$ \citep{Pope2000}, with $\De(1) = 1.88$ from \citet{Chollet1984}, so that $\Cs = 2.64$. We take $p_0 = 0$ for all datasets, a spectrum that is flat at low wavenumbers; $p_0 = 2$ and $4$ lower the predictions by medians of 12\,\% and 20\,\% and worsen the agreement. Apart from this choice, no constant is adjusted to the data.
+% Note: Walker (2019, section 4.2.2), with the earlier integrand, found p0 = 2 best for Michigan and p0 = 0 for the other
+% datasets. Here p0 = 0, 2, 4 give 71%, 69%, 62% of points within 1.5 and r.m.s. log deviations 0.38, 0.42, 0.47.
 
 Figure~\ref{fig:comparison}(\textit{b}) compares (\ref{eq:main}) with the measurements. Over a more than twenty-fold range of $s_T / \sL$, 71\,\% of the 80 points lie within a factor of 1.5 of the prediction, and the r.m.s.\ logarithmic deviation is 0.38. The two high-$\Ka$ datasets are captured best. For Michigan \citep{Wabel2017}, at $3 < \Ka < 310$ and $\Rey$ up to $2 \times 10^4$, the geometric-mean ratio of measurement to prediction is 1.06 with an r.m.s.\ logarithmic deviation of 0.21; Toronto \citep{YuenGulder2013} has the same mean ratio with a deviation of 0.20. These are the conditions under which $A_T / A$ (blue symbols) falls furthest below $s_T / \sL$, and the prediction tracks $s_T$ rather than the area. The remaining datasets show systematic offsets: the low-$\Ka$ Bunsen flames of Tohoku, Ottawa and Michigan (2005) lie above the prediction by factors of 1.4--1.8, the low-swirl flames of Aachen by a factor of 2, and the Toronto data of \citet{Tamadonfar2014} at 0.8 times the prediction.
 % TODO: numbers above are from make_figures.ipynb (printed summary); re-run after the delta_L harmonisation.
